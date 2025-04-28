@@ -41,7 +41,7 @@ Resources:
     Properties:
       VpcId: !Ref LksKotaMalangVPC
       CidrBlock: 20.2.0.0/24
-      AvailabilityZone: !Select [0, !GetAZs ""]
+      AvailabilityZone: !Select [0, !GetAZs '']
       MapPublicIpOnLaunch: true
       Tags:
         - Key: Name
@@ -52,7 +52,7 @@ Resources:
     Properties:
       VpcId: !Ref LksKotaMalangVPC
       CidrBlock: 20.2.1.0/24
-      AvailabilityZone: !Select [1, !GetAZs ""]
+      AvailabilityZone: !Select [1, !GetAZs '']
       MapPublicIpOnLaunch: true
       Tags:
         - Key: Name
@@ -64,7 +64,7 @@ Resources:
     Properties:
       VpcId: !Ref LksKotaMalangVPC
       CidrBlock: 20.2.2.0/24
-      AvailabilityZone: !Select [0, !GetAZs ""]
+      AvailabilityZone: !Select [0, !GetAZs '']
       MapPublicIpOnLaunch: false
       Tags:
         - Key: Name
@@ -75,7 +75,7 @@ Resources:
     Properties:
       VpcId: !Ref LksKotaMalangVPC
       CidrBlock: 20.2.3.0/24
-      AvailabilityZone: !Select [1, !GetAZs ""]
+      AvailabilityZone: !Select [1, !GetAZs '']
       MapPublicIpOnLaunch: false
       Tags:
         - Key: Name
@@ -163,19 +163,19 @@ Resources:
         - IpProtocol: tcp
           FromPort: 2049
           ToPort: 2049
-          CidrIp: 20.2.0.0/16  # Allow EFS access from entire VPC
+          CidrIp: 20.2.0.0/16 # Allow EFS access from entire VPC
         - IpProtocol: tcp
           FromPort: 3306
           ToPort: 3306
-          CidrIp: 20.2.2.0/24  # Allow RDS access from private subnet 1
+          CidrIp: 20.2.2.0/24 # Allow RDS access from private subnet 1
         - IpProtocol: tcp
           FromPort: 3306
           ToPort: 3306
-          CidrIp: 20.2.3.0/24  # Allow RDS access from private subnet 2
+          CidrIp: 20.2.3.0/24 # Allow RDS access from private subnet 2
         - IpProtocol: tcp
           FromPort: 5000
           ToPort: 5000
-          CidrIp: 0.0.0.0/0    # Allow public access on port 5000
+          CidrIp: 0.0.0.0/0 # Allow public access on port 5000
       Tags:
         - Key: Name
           Value: SG-Apps
@@ -208,14 +208,14 @@ Resources:
 
   NATInstance:
     Type: AWS::EC2::Instance
-    DependsOn: VPCGatewayAttachment   # Make sure the IGW is attached before launching
+    DependsOn: VPCGatewayAttachment # Make sure the IGW is attached before launching
     Properties:
-      ImageId: ami-0015c0130d6cc5da7   # The NAT Instance AMI
+      ImageId: ami-0015c0130d6cc5da7 # The NAT Instance AMI
       InstanceType: t2.micro
       SecurityGroupIds:
         - !Ref NATInstanceSecurityGroup
-      SubnetId: !Ref PublicSubnet1     # Place in public subnet
-      SourceDestCheck: false           # Required for NAT functionality
+      SubnetId: !Ref PublicSubnet1 # Place in public subnet
+      SourceDestCheck: false # Required for NAT functionality
       Tags:
         - Key: Name
           Value: NAT-Instance
@@ -235,7 +235,7 @@ Resources:
     Type: AWS::S3::Bucket
     DeletionPolicy: Retain
     Properties:
-      BucketName: lks-kotamalang-fahri-25
+      BucketName: lks-kotamalang-fahri-25-test
       PublicAccessBlockConfiguration:
         BlockPublicAcls: false
         BlockPublicPolicy: false
@@ -269,7 +269,7 @@ Resources:
     Type: AWS::S3::Bucket
     DeletionPolicy: Retain
     Properties:
-      BucketName: lks-dockerimage-fahri
+      BucketName: lks-dockerimage-fahri-test
       VersioningConfiguration:
         Status: Enabled
       PublicAccessBlockConfiguration:
@@ -309,13 +309,13 @@ Resources:
     Properties:
       DBInstanceIdentifier: LKS-RDS-Apps
       AllocatedStorage: 20
-      DBInstanceClass: db.t2.micro
+      DBInstanceClass: db.t3.micro
       Engine: mariadb
       MasterUsername: admin
       MasterUserPassword: Technobrain2025!
-      DBName: techno-rds
+      DBName: techno_rds
       VPCSecurityGroups:
-        - !Ref SGApps     # Using the existing SGApps security group
+        - !Ref SGApps # Using the existing SGApps security group
       DBSubnetGroupName: !Ref DBSubnetGroup
       MultiAZ: false
       PubliclyAccessible: false
