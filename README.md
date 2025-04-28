@@ -14,10 +14,10 @@ ECR_REPOSITORY=your name ECR<br/>
 ECR_REGISTRY=your url image
 
 ## Environments For Local Test
-MOCK_AWS=true
-AWS_REGION=us-east-1
-S3_BUCKET_NAME=dummy-bucket
-API_GATEWAY_URL=http://localhost:5000/mock-api
+MOCK_AWS=true<br/>
+AWS_REGION=us-east-1<br/>
+S3_BUCKET_NAME=dummy-bucket<br/>
+API_GATEWAY_URL=http://localhost:5000/mock-api<br/>
 
 
 
