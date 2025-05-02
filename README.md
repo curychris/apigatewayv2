@@ -20,6 +20,12 @@ S3_BUCKET_NAME=dummy-bucket<br/>
 API_GATEWAY_URL=http://localhost:5000/mock-api<br/>
 
 
+# Build Docker image
+docker build -t flask-app .
+
+# Run Docker container
+docker run -p 5000:5000 --env-file .env flask-app
+
 
 ## Running Apps
 python app.py
